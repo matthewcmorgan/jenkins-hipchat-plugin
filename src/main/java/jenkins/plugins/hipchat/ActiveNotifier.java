@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -165,27 +166,113 @@ public class ActiveNotifier implements FineGrainedNotifier {
         }
 
         private MessageBuilder startMessage() {
+            Result result = build.getResult();
+            message.append((result == Result.FAILURE) ? getRandomFailEmoji() : getRandomWinEmoji());
             message.append(build.getProject().getDisplayName());
             message.append(" - ");
             message.append(build.getDisplayName());
             message.append(" ");
+            List<Entry> entries = new LinkedList<Entry>();
+            Set<String> authors = new HashSet<String>();
+            Set<AffectedFile> files = new HashSet<AffectedFile>();
+            ChangeLogSet changeSet = build.getChangeSet();
+            for (Object o : changeSet.getItems()) {
+                Entry entry = (Entry) o;
+                logger.info("Entry " + o);
+                entries.add(entry);
+                files.addAll(entry.getAffectedFiles());
+            }
+            if (entries.isEmpty()) {
+                logger.info("Empty change...");
+                return null;
+            }
+            for (Entry entry : entries) {
+                authors.add(entry.getAuthor().getDisplayName());
+            }
+            message.append("Started by changes from ");
+            message.append(StringUtils.join(authors, ", "));
+            message.append(" (");
+            message.append(files.size());
+            message.append(" file(s) changed)");
+            message.append(" - ");
             return this;
         }
 
         public MessageBuilder appendOpenLink() {
+            Result result = build.getResult();
             String url = notifier.getBuildServerUrl() + build.getUrl();
             message.append(" (<a href='").append(url).append("'>Open</a>)");
+            message.append((result == Result.FAILURE) ? getRandomFailEmoji() : getRandomWinEmoji());
             return this;
         }
 
         public MessageBuilder appendDuration() {
+            Result result = build.getResult();
             message.append(" after ");
             message.append(build.getDurationString());
+            message.append((result == Result.FAILURE) ? getRandomFailEmoji() : getRandomWinEmoji());
             return this;
         }
 
         public String toString() {
             return message.toString();
+        }
+
+        public String getRandomFailEmoji() {
+            List<String> fails = new LinkedList<String>();
+            fails.add("(tableflip)");
+            fails.add("(yuno)");
+            fails.add("(rageguy)");
+            fails.add("(areyoukiddingme)");
+            fails.add("(boom)");
+            fails.add("(cerealspit)");
+            fails.add("(derp)");
+            fails.add("(disapproval)");
+            fails.add("(facepalm)");
+            fails.add("(failed)");
+            fails.add("(grumpycat)");
+            fails.add("(gtfo)");
+            fails.add("(omg)");
+            fails.add("(ohgodwhy)");
+            fails.add("(oops)");
+            fails.add("(poo)");
+            fails.add("(sadpanda)");
+            fails.add("(sadtroll)");
+            fails.add("(scumbag)");
+            fails.add("(stare)");
+            fails.add("(thumbsdown)");
+            fails.add("(wat)");
+            fails.add("(wtf)");
+            fails.add(">:-(");
+            int i = new Random().nextInt(fails.size());
+            return fails.get(i);
+        }
+
+        public String getRandomWinEmoji() {
+            List<String> wins = new LinkedList<String>();
+            wins.add("(allthethings)");
+            wins.add("(awthanks)");
+            wins.add("(awyeah)");
+            wins.add("(cake)");
+            wins.add("(challengeaccepted)");
+            wins.add("(content)");
+            wins.add("(dance)");
+            wins.add("(fonzie)");
+            wins.add("(fuckyeah)");
+            wins.add("(gangnamsytle)");
+            wins.add("(goodnews)");
+            wins.add("(notbad)");
+            wins.add("(beer)");
+            wins.add("(pbr)");
+            wins.add("(shrug)");
+            wins.add("(success)");
+            wins.add("(successful)");
+            wins.add("(thumbsup)");
+            wins.add("(yey)");
+            wins.add("(yougotitdude)");
+            wins.add("(dealwithit)");
+            int i = new Random().nextInt(wins.size());
+            return wins.get(i);
         }
     }
 }

@@ -24,5 +24,36 @@
     <f:entry title="Send As" help="${rootURL}/plugin/hipchat/help-globalConfig-hipChatSendAs.html">
         <f:textbox name="hipChatSendAs" value="${descriptor.getSendAs()}" />
     </f:entry>
+    <f:entry title="Project Room">
+        <f:textbox name="hipChatProjectRoom" value="${instance.getRoom()}"/>
+    </f:entry>
+
+    <f:entry title="Notify Build Start">
+        <f:checkbox name="hipChatStartNotification" value="true" checked="${instance.getStartNotification()}"/>
+    </f:entry>
+
+    <f:entry title="Notify Aborted">
+        <f:checkbox name="hipChatNotifyAborted" value="true" checked="${instance.getNotifyAborted()}"/>
+    </f:entry>
+
+    <f:entry title="Notify Failure">
+        <f:checkbox name="hipChatNotifyFailure" value="true" checked="${instance.getNotifyFailure()}"/>
+    </f:entry>
+
+    <f:entry title="Notify Not Built">
+        <f:checkbox name="hipChatNotifyNotBuilt" value="true" checked="${instance.getNotifyNotBuilt()}"/>
+    </f:entry>
+
+    <f:entry title="Notify Success">
+        <f:checkbox name="hipChatNotifySuccess" value="true" checked="${instance.getNotifySuccess()}"/>
+    </f:entry>
+
+    <f:entry title="Notify Unstable">
+        <f:checkbox name="hipChatNotifyUnstable" value="true" checked="${instance.getNotifyUnstable()}"/>
+    </f:entry>
+
+    <f:entry title="Notify Back To Normal">
+        <f:checkbox name="hipChatNotifyBackToNormal" value="true" checked="${instance.getNotifyBackToNormal()}"/>
+    </f:entry>
   </f:section>
 </j:jelly>

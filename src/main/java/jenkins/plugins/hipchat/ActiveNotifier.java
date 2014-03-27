@@ -259,7 +259,7 @@ public class ActiveNotifier implements FineGrainedNotifier {
             wins.add(" (dance) ");
             wins.add(" (fonzie) ");
             wins.add(" (fuckyeah) ");
-            wins.add(" (gangnamsytle) ");
+            wins.add(" (gangnamstyle) ");
             wins.add(" (goodnews) ");
             wins.add(" (notbad) ");
             wins.add(" (beer) ");
